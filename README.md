@@ -3,7 +3,7 @@
 
 ### 📄 `README.md` – Updated Version:
 
-```markdown
+
 # compiler
 
 Custom compiler from scratch.
@@ -26,7 +26,6 @@ This project is a custom compiler built from the ground up, written in C++. It a
 
 ## 🗂️ Directory Structure
 
-```
 
 compiler/
 ├── main.cpp
@@ -34,13 +33,13 @@ compiler/
 ├── tokenizer.h
 └── README.md
 
-```
+
 
 ## 🚧 Upcoming Tasks
 
 - Add support for identifiers and operators
 - Implement a symbol table
 - Begin working on a recursive descent parser
-```
+
 
 ---
