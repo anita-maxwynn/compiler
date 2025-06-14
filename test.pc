@@ -1,0 +1,8 @@
+def main() {
+    a = input;
+    b = "Hello, Zoo!";
+    c = true;
+    d = false;
+    output = b;
+    exit(5);
+}
