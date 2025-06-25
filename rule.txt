@@ -9,4 +9,5 @@ ForStmt       → 'for' '(' Assignment Expression ';' Assignment ')' Block
 ReturnStmt    → 'return' Expression ';'
 Expression    → Term { ('+' | '-') Term }
 Term          → Factor { ('*' | '/') Factor }
-Factor        → Literal | Identifier | '(' Expression ')'
+Factor        → Literal | Identifier | '(' Expression ')' | ArrayLiteral
+ArrayLiteral → '[' [ Expression { ',' Expression } ] ']'

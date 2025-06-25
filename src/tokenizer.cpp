@@ -1,4 +1,4 @@
-#include "tokenizer.h"
+#include "../include/tokenizer.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -199,7 +199,7 @@ std::vector<GenericToken> tokenizeFile(FILE* file) {
                 ch = fgetc(file);
                 index++;
             }
-
+            
             if (!tokens.empty() && tokens.back().type == TOKEN_ERROR) {
                 while (ch != EOF && !isspace(ch) && ch != ';') {
                     ch = fgetc(file);
