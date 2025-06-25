@@ -1,0 +1,13 @@
+Program       → 'def' Identifier '(' ')' Block
+Block         → '{' StatementList '}'
+StatementList → { Statement }
+Statement     → Assignment | OutputStmt | IfStmt | ForStmt | ReturnStmt
+Assignment    → Identifier '=' Expression ';'
+OutputStmt    → 'output' '(' Expression ')' ';'
+IfStmt        → 'if' '(' Expression ')' Block [ 'elif' '(' Expression ')' Block ]*
+ForStmt       → 'for' '(' Assignment Expression ';' Assignment ')' Block
+ReturnStmt    → 'return' Expression ';'
+Expression    → Term { ('+' | '-') Term }
+Term          → Factor { ('*' | '/') Factor }
+Factor        → Literal | Identifier | '(' Expression ')' | ArrayLiteral
+ArrayLiteral → '[' [ Expression { ',' Expression } ] ']'
