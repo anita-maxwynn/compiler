@@ -3,7 +3,7 @@
 
 #include <string>
 #include <cstdio>
-
+#include <vector>
 enum TokenType {
     INT,
     CHAR,
@@ -120,7 +120,8 @@ struct GenericToken {
     TokenError error;
 };
 
-
+void printTokenOperator(const TokenOperator* token);
+void printTokenError(const TokenError* token);
 void printTokenLiteral(const TokenLiteral* token);
 void printTokenKeyword(const TokenKeyword* token);
 void printTokenSeparator(const TokenSeparator* token);
@@ -129,6 +130,6 @@ void printTokenIdentifier(const TokenIdentifier* token);
 TokenKeyword matchKeyword(const std::string& word, size_t position);
 TokenSeparator matchSeparator(char ch, size_t position);
 
-void tokenizeFile(FILE* file);
+std::vector<GenericToken> tokenizeFile(FILE* file);
 
 #endif

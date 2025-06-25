@@ -4,8 +4,6 @@
 #include <sstream>
 #include <cctype>
 
-std::vector<GenericToken> tokens;
-
 TokenKeyword matchKeyword(const std::string& word, size_t position) {
     if (word == "def") return { KEYWORD_DEF, word, position };
     // if (word == "true") return { KEYWORD_TRUE, word, position };
@@ -108,7 +106,8 @@ void printTokenOperator(const TokenOperator* token) {
     std::cout << "TokenOperator: " << token->symbol << " at position " << token->position << "\n";
 }
 
-void tokenizeFile(FILE* file) {
+std::vector<GenericToken> tokenizeFile(FILE* file) {
+    std::vector<GenericToken> tokens;
     char ch;
     size_t index = 0;
 
@@ -260,39 +259,39 @@ void tokenizeFile(FILE* file) {
         }
 
                 // Handle identifiers and keywords
-                else if (isalpha(ch)) {
-                    std::string word;
-                    size_t start = index;
-                    word += ch;
-                    ch = fgetc(file);
-                    index++;
-                    while (isalnum(ch)|| ch == '_') {
-                        word += ch;
-                        ch = fgetc(file);
-                        index--;
-                    }
-                    ungetc(ch, file);
+                // else if (isalpha(ch)) {
+                //     std::string word;
+                //     size_t start = index;
+                //     word += ch;
+                //     ch = fgetc(file);
+                //     index++;
+                //     while (isalnum(ch)|| ch == '_') {
+                //         word += ch;
+                //         ch = fgetc(file);
+                //         index--;
+                //     }
+                //     ungetc(ch, file);
 
-                    if (word == "true" || word == "false") {
-                        TokenLiteral literal;
-                        literal.type = BOOL;
-                        literal.value.boolValue = (word == "true");
-                        literal.position = start;
+                //     if (word == "true" || word == "false") {
+                //         TokenLiteral literal;
+                //         literal.type = BOOL;
+                //         literal.value.boolValue = (word == "true");
+                //         literal.position = start;
 
-                        GenericToken token;
-                        token.type = TOKEN_LITERAL;
-                        token.position = start;
-                        token.literal = literal;
-                        tokens.push_back(token);
-                    } else {
-                        TokenKeyword keyword = matchKeyword(word, start);
-                        GenericToken token;
-                        token.type = TOKEN_KEYWORD;
-                        token.position = start;
-                        token.keyword = keyword;
-                        tokens.push_back(token);
-                    }
-                }
+                //         GenericToken token;
+                //         token.type = TOKEN_LITERAL;
+                //         token.position = start;
+                //         token.literal = literal;
+                //         tokens.push_back(token);
+                //     } else {
+                //         TokenKeyword keyword = matchKeyword(word, start);
+                //         GenericToken token;
+                //         token.type = TOKEN_KEYWORD;
+                //         token.position = start;
+                //         token.keyword = keyword;
+                //         tokens.push_back(token);
+                //     }
+                // }
 
         // Handle string literals
         else if (ch == '"') {
@@ -430,30 +429,6 @@ void tokenizeFile(FILE* file) {
     }
 
     // Print all tokens
-    for (size_t i = 0; i < tokens.size(); ++i) {
-        std::cout << "[" << i << "] ";
-        const GenericToken& token = tokens[i];
-        switch (token.type) {
-            case TOKEN_LITERAL:
-                printTokenLiteral(&token.literal);
-                break;
-            case TOKEN_KEYWORD:
-                printTokenKeyword(&token.keyword);
-                break;
-            case TOKEN_SEPARATOR:
-                printTokenSeparator(&token.separator);
-                break;
-            case TOKEN_IDENTIFIER:
-                printTokenIdentifier(&token.identifier);
-                break;
-            case TOKEN_OPERATOR:
-                printTokenOperator(&token.op);
-                break;
-
-            case TOKEN_ERROR:
-                printTokenError(&token.error);
-                break;
-        }
-    }
+    return tokens;
 }
 
