@@ -21,7 +21,8 @@ def main() {
     }
 
     arr = [10, 20, 30, 40];
-    output arr[2];
+    x=3+arr[1]*3+3;
+    output x;
 
     for (i = 0; i < 3; i = i + 1) {
         output i;
