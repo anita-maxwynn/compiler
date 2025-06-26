@@ -1,0 +1,11 @@
+def main() {
+    input x;
+    output "x = ";
+    output x;
+    
+    result = x + 10;
+    output "x + 10 = \n";  
+    output result;
+    
+    return;
+}
