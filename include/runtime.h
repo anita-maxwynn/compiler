@@ -6,21 +6,18 @@
 #include <memory>
 #include <iostream>
 
-// Define what types our language can have at runtime
 enum class RuntimeType {
     STRING,
     INTEGER, 
     FLOAT,
     BOOLEAN,
     ARRAY,
-    UNDEFINED  // For uninitialized variables
+    UNDEFINED
 };
 
-// This is the core - every value in our language will be wrapped in this
 struct RuntimeValue {
     RuntimeType type;
     
-    // Use union to save memory - only one of these will be used at a time
     union {
         std::string* stringValue;
         int intValue;
@@ -29,7 +26,6 @@ struct RuntimeValue {
         std::vector<RuntimeValue>* arrayValue;
     };
     
-    // Constructors for each type
     RuntimeValue() : type(RuntimeType::UNDEFINED) {}
     
     explicit RuntimeValue(const std::string& str) : type(RuntimeType::STRING) {
@@ -50,36 +46,24 @@ struct RuntimeValue {
         arrayValue = new std::vector<RuntimeValue>(arr);
     }
     
-    // Copy constructor
     RuntimeValue(const RuntimeValue& other);
     
-    // Assignment operator
     RuntimeValue& operator=(const RuntimeValue& other);
     
-    // Destructor to clean up dynamic memory
     ~RuntimeValue();
     
-    // Helper methods
     std::string toString() const;
     void print() const;
 };
 
-// ===== TYPE COERCION SYSTEM =====
-// These functions implement your dynamic typing rules
-
-// Convert string to number if possible, otherwise return 0
 RuntimeValue stringToNumber(const RuntimeValue& value);
 
-// Convert any value to boolean (for if statements, etc.)
 RuntimeValue toBoolean(const RuntimeValue& value);
 
-// The heart of your dynamic typing: binary operations with auto-coercion
 RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue& right, const std::string& op);
 
-// Handle unary operations (-, !)
 RuntimeValue performUnaryOperation(const RuntimeValue& operand, const std::string& op);
 
-// Type coercion helpers
 bool isNumeric(const RuntimeValue& value);
 double getNumericValue(const RuntimeValue& value);
 

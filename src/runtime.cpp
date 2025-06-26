@@ -211,37 +211,30 @@ RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue
         }
         
         if (right.type == RuntimeType::STRING && (left.type == RuntimeType::INTEGER || left.type == RuntimeType::FLOAT)) {
-            // 5 + x: convert x to number, do math
             RuntimeValue rightNum = stringToNumber(right);
             double leftVal = getNumericValue(left);
             double rightVal = getNumericValue(rightNum);
             
-            // If left is float, result is float
             if (left.type == RuntimeType::FLOAT) {
                 return RuntimeValue(leftVal + rightVal);
             }
-            // If converted right is integer and left is integer, result is integer
             if (rightNum.type == RuntimeType::INTEGER && left.type == RuntimeType::INTEGER) {
                 return RuntimeValue(static_cast<int>(leftVal + rightVal));
             }
             return RuntimeValue(leftVal + rightVal);
         }
         
-        // Both are numeric - do math addition
         if (isNumeric(left) && isNumeric(right)) {
             double leftVal = getNumericValue(left);
             double rightVal = getNumericValue(right);
             
-            // If both were integers, return integer
             if (left.type == RuntimeType::INTEGER && right.type == RuntimeType::INTEGER) {
                 return RuntimeValue(static_cast<int>(leftVal + rightVal));
             }
-            // Otherwise return float
             return RuntimeValue(leftVal + rightVal);
         }
     }
     
-    // For all other operations, convert to numbers
     if (op == "-" || op == "*" || op == "/" || op == "%") {
         double leftVal = getNumericValue(left);
         double rightVal = getNumericValue(right);
@@ -271,9 +264,7 @@ RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue
         }
     }
     
-    // Comparison operations
     if (op == "==" || op == "!=" || op == "<" || op == "<=" || op == ">" || op == ">=") {
-        // String comparison if both are strings
         if (left.type == RuntimeType::STRING && right.type == RuntimeType::STRING) {
             if (op == "==") return RuntimeValue(*left.stringValue == *right.stringValue);
             if (op == "!=") return RuntimeValue(*left.stringValue != *right.stringValue);
@@ -283,7 +274,6 @@ RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue
             if (op == ">=") return RuntimeValue(*left.stringValue >= *right.stringValue);
         }
         
-        // Numeric comparison
         double leftVal = getNumericValue(left);
         double rightVal = getNumericValue(right);
         
@@ -295,7 +285,6 @@ RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue
         if (op == ">=") return RuntimeValue(leftVal >= rightVal);
     }
     
-    // Logical operations
     if (op == "&&") {
         RuntimeValue leftBool = toBoolean(left);
         if (!leftBool.boolValue) return RuntimeValue(false);
@@ -307,12 +296,10 @@ RuntimeValue performBinaryOperation(const RuntimeValue& left, const RuntimeValue
         return toBoolean(right);
     }
     
-    // Unknown operation
     std::cerr << "Error: Unknown binary operation: " << op << std::endl;
     return RuntimeValue();
 }
 
-// Handle unary operations
 RuntimeValue performUnaryOperation(const RuntimeValue& operand, const std::string& op) {
     if (op == "-") {
         double val = getNumericValue(operand);
