@@ -12,8 +12,8 @@ def is_even(n) {
 
 def main() {
     input x;
-    y = sum(x, 5);
-
+    y = sum(x, -5);
+    //output y;
     if (is_even(y) && y > 5) {
         output y;
     } else {
